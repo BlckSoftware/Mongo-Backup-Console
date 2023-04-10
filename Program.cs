@@ -18,8 +18,7 @@ using System.Net;
 namespace MongoBackupConsole
 {
     class Program
-    {
-        
+    {        
         static void Main(string[] args)
         {
             ConsoleExtension.Hide();
@@ -27,13 +26,11 @@ namespace MongoBackupConsole
             {
                 Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + "Backup", true);
             }
-
-            Dump.dump();
-            
+            Dump.dump();            
         }
         static class Dump 
         {
-           
+           string dbName="YourDB";
             #region dump
             public static void dump()
             {
@@ -42,7 +39,7 @@ namespace MongoBackupConsole
                string time = DateTime.Now.ToString("HH:mm:ss dd-MM-yyyy ");
                
                 string strCmdText;
-                strCmdText = "/K mongodump --db SmartBaseNOSQL --out Backup/"+ Today;
+                strCmdText = "/K mongodump --db dbName --out Backup/"+ Today;
                
                 Process cmd = new Process();
                 cmd.StartInfo.FileName ="cmd.exe";
@@ -63,12 +60,10 @@ namespace MongoBackupConsole
                 }
                 catch (Exception ex)
                 {
-
                     WriteToFile(time + " | ------ MONGODUMP CONSOLE KAPATILAMADI -----\n"+ex);
                 }
                 
-                string path = AppDomain.CurrentDomain.BaseDirectory + "Backup" + '\\' + Today;
-                
+                string path = AppDomain.CurrentDomain.BaseDirectory + "Backup" + '\\' + Today;               
 
 
                 if (Directory.Exists(path))
@@ -119,9 +114,7 @@ namespace MongoBackupConsole
                     {
                         WriteToFile(Today+" | MAIL GONDERILEMEDI HATA : \n" + ex);
                     }
-
                 }
-
             }
             #endregion
             #region log
@@ -131,8 +124,7 @@ namespace MongoBackupConsole
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
-                }
-                
+                }                
                 string filepath = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\ConsoleLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
                 if (!File.Exists(filepath))
                 {
